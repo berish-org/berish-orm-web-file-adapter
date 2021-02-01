@@ -1,4 +1,4 @@
-import { baseFileMethods, Entity, IQueryData, Manager, Query } from '@berish/orm';
+import { baseFileMethods, Entity, QueryData, QueryDataSchema, Manager, Query } from '@berish/orm';
 
 interface IDbReceiverParams {
   by?: <T extends Entity>(query: Query<T>) => Query<T> | Promise<Query<T>>;
@@ -40,7 +40,7 @@ export class WebFileReceiver {
     throw new Error('orm method not found');
   }
 
-  private async withBy(queryData: IQueryData) {
+  private async withBy(queryData: QueryData<QueryDataSchema>) {
     if (!queryData) throw new Error('FP-ORM: queryData is undefined');
     const query = Query.fromJSON(queryData);
     const withByQuery = (await (this.params.by && this.params.by(query))) || query;
